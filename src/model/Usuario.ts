@@ -160,7 +160,7 @@ export class Usuario {
                                             nome = '${usuario.getNome()}', 
                                             tipo_usuario = '${usuario.getTipoUsuario()}',
                                             contato = '${usuario.getContato()}'                                                                                    
-                                        WHERE id_usuario = ${usuario.idUsuario}`;
+                                        WHERE id_usuario = ${usuario.idUsuario};`;
 
             // Executa a query de atualização e verifica se a operação foi bem-sucedida.
             await dataBase.query(queryAtualizaUsuario)

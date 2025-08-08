@@ -33,6 +33,7 @@ class UsuarioController extends Usuario {
         try {
             // Desestruturando objeto recebido pelo front-end
             const dadosRecebidos: UsuarioDTO = req.body;
+            console.log(dadosRecebidos);
             
             // Instanciando objeto Usuario
             const novoUsuario = new Usuario(
