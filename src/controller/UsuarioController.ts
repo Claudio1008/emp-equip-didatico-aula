@@ -17,6 +17,7 @@ interface UsuarioDTO {
 class UsuarioController extends Usuario {
 
     static async todos(req: Request, res: Response): Promise<any> {
+        
         try {
             const listaDeUsuarios = await Usuario.listarUsuarios();
             
@@ -27,14 +28,13 @@ class UsuarioController extends Usuario {
 
            return res.status(400).json("Erro ao recuperar as informações do Usuário");
         }
-    }
-
+    } 
+    
     static async cadastrar(req: Request, res: Response) : Promise<any>  {
         try {
             // Desestruturando objeto recebido pelo front-end
             const dadosRecebidos: UsuarioDTO = req.body;
-            console.log(dadosRecebidos);
-            
+                               
             // Instanciando objeto Usuario
             const novoUsuario = new Usuario(
                 dadosRecebidos.nome,
@@ -102,6 +102,36 @@ class UsuarioController extends Usuario {
             return res.json({ mensagem: "Erro ao atualizar usuário." });
         }
     }
+
+    static async unico (req: Request, res: Response): Promise<any> {
+
+        try {
+            /*
+            const idParam = (req.params.id ?? req.query.idUsuario) as string;
+            const idUsuario = Number(idParam);*/
+            const idUsuario = parseInt(req.query.idUsuario as string);
+
+            if (!idUsuario || Number.isNaN(idUsuario)) {
+                return res.status(400).json
+                ({ mensagem: "Parâmetro idUsuario inválido ou ausente." });
+            }
+
+            const usuario = await Usuario.buscarPorId(idUsuario);
+           
+            if (!usuario) {
+                return res.status(404).json
+                ({ mensagem: "Usuário não encontrado." });
+            }
+
+            return res.status(200).json(usuario);
+
+        } catch (error) {
+            console.error(`Erro ao buscar usuário: ${error}`);
+            return res.status(500).json
+            ({ mensagem: "Erro ao buscar usuário." });
+        }
+    }
+    
 }
 
 export default UsuarioController;
